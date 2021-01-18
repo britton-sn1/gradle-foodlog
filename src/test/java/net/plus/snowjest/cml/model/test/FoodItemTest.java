@@ -1,6 +1,7 @@
 package net.plus.snowjest.cml.model.test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import net.plus.snowjest.cml.Main;
 import net.plus.snowjest.cml.model.FoodItem;
@@ -23,11 +24,17 @@ public class FoodItemTest
 	static private final double SUGARS = 0.5;
 	static private final double FIBRE = 3.2;
 	static private final String UNITS = "100g";
+	static private final boolean ERROR_IF_NOT_EXISTS = true;
 
 	@BeforeEach
 	public void setUp() throws Exception
 	{
 		session = Main.getSession();
+		delete(ERROR_IF_NOT_EXISTS);
+		FoodItem foodItem = (FoodItem) session
+				.get(FoodItem.class, FOOD_ITEM_NAME);
+		assertNull(foodItem, "Food item not null");
+
 	}
 
 	@AfterEach
@@ -43,7 +50,7 @@ public class FoodItemTest
 		read();
 		update();
 		read2();
-		delete();
+		delete(!ERROR_IF_NOT_EXISTS);
 		read3();
 	}
 
@@ -71,14 +78,14 @@ public class FoodItemTest
 	{
 		FoodItem foodItem = (FoodItem) session
 				.get(FoodItem.class, FOOD_ITEM_NAME);
-		assertTrue(foodItem.getCarbs() == CARBS);
-		assertTrue(foodItem.getFats() == FATS);
-		assertTrue(foodItem.getProtein() == PROTEIN);
-		assertTrue(foodItem.getSaturates() == SATURATES);
-		assertTrue(foodItem.getSodium() == SODIUM);
-		assertTrue(foodItem.getSugars() == SUGARS);
-		assertTrue(foodItem.getFibre() == FIBRE);
-		assertTrue(foodItem.getUnits().equals(UNITS));
+		assertEquals(CARBS,foodItem.getCarbs(), "Inccorect carbs value");
+		assertEquals(FATS, foodItem.getFats(), "Inccorect fats value");
+		assertEquals(PROTEIN, foodItem.getProtein(), "Inccorect protein value");
+		assertEquals(SATURATES, foodItem.getSaturates(), "Inccorect saturates value");
+		assertEquals(SODIUM, foodItem.getSodium(), "Inccorect sodium value");
+		assertEquals(SUGARS, foodItem.getSugars(), "Inccorect sugars value");
+		assertEquals(FIBRE, foodItem.getFibre(), "Inccorect fibre value");
+		assertEquals(UNITS, foodItem.getUnits(), "Inccorect units value");
 	}
 
 	private void update()
@@ -94,20 +101,26 @@ public class FoodItemTest
 	{
 		FoodItem foodItem = (FoodItem) session
 				.get(FoodItem.class, FOOD_ITEM_NAME);
-		assertTrue(foodItem.getCarbs() == CARBS);
-		assertTrue(foodItem.getFats() == FATS);
-		assertTrue(foodItem.getProtein() == PROTEIN * 2);
-		assertTrue(foodItem.getSaturates() == SATURATES);
-		assertTrue(foodItem.getSodium() == SODIUM);
-		assertTrue(foodItem.getSugars() == SUGARS);
-		assertTrue(foodItem.getFibre() == FIBRE);
-		assertTrue(foodItem.getUnits().equals(UNITS));
-	}
 
-	private void delete()
+		assertEquals(CARBS,foodItem.getCarbs(), "Inccorect carbs value");
+		assertEquals(FATS, foodItem.getFats(), "Inccorect fats value");
+		assertEquals(PROTEIN*2, foodItem.getProtein(), "Inccorect protein value");
+		assertEquals(SATURATES, foodItem.getSaturates(), "Inccorect saturates value");
+		assertEquals(SODIUM, foodItem.getSodium(), "Inccorect sodium value");
+		assertEquals(SUGARS, foodItem.getSugars(), "Inccorect sugars value");
+		assertEquals(FIBRE, foodItem.getFibre(), "Inccorect fibre value");
+		assertEquals(UNITS, foodItem.getUnits(), "Inccorect units value");
+
+	}		
+
+	private void delete(boolean ignoreIfNull)
 	{
 		FoodItem foodItem = (FoodItem) session
 				.get(FoodItem.class, FOOD_ITEM_NAME);
+		if(ignoreIfNull && foodItem == null) {
+			return;
+		}
+		
 		session.beginTransaction();
 		session.delete(foodItem);
 		session.getTransaction().commit();
@@ -118,7 +131,7 @@ public class FoodItemTest
 	{
 		FoodItem foodItem = (FoodItem) session
 				.get(FoodItem.class, FOOD_ITEM_NAME);
-		assertTrue(foodItem == null);
+		assertNull(foodItem, "Food item not null");
 	}
 
 }
