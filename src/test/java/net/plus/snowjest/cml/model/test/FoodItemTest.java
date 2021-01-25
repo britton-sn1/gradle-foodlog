@@ -3,13 +3,14 @@ package net.plus.snowjest.cml.model.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import net.plus.snowjest.cml.Main;
+import net.plus.snowjest.cml.FoodItemSessionFactory;
 import net.plus.snowjest.cml.model.FoodItem;
 
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class FoodItemTest
 {
@@ -26,10 +27,13 @@ public class FoodItemTest
 	static private final String UNITS = "100g";
 	static private final boolean ERROR_IF_NOT_EXISTS = true;
 
+	@Autowired
+	private FoodItemSessionFactory foodItemSessionFactory;
+	
 	@BeforeEach
 	public void setUp() throws Exception
 	{
-		session = Main.getSession();
+		session = foodItemSessionFactory.getSession();
 		delete(ERROR_IF_NOT_EXISTS);
 		FoodItem foodItem = (FoodItem) session
 				.get(FoodItem.class, FOOD_ITEM_NAME);
