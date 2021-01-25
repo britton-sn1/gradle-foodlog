@@ -137,6 +137,16 @@
 				<version>2.22.2</version>
 			</plugin>
 		</plugins>
+		<resources>
+		   <resource>
+			<directory>src/my-resources</directory>
+			<includes>
+				<include>**/*.txt</include>
+				<include>**/*.rtf</include>
+				<include>**/*.xml</include>
+			</includes>
+		   </resource>
+		</resources>
 	</build>
 
 

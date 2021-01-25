@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import net.plus.snowjest.cml.FoodItemSessionFactory;
 import net.plus.snowjest.cml.model.FoodItem;
@@ -31,8 +30,7 @@ public class MealTest {
 	static private final double FIBRE = 3.2;
 	static private final String UNITS = "100g";
 
-	@Autowired
-	private FoodItemSessionFactory foodItemSessionFactory;
+	private FoodItemSessionFactory foodItemSessionFactory = new FoodItemSessionFactory();
 	
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -46,7 +44,9 @@ public class MealTest {
 
 	@Test
 	public void test() {
-		int mealId = create();
+	}
+	
+	void x() {	int mealId = create();
 		read(mealId);
 		update(mealId);
 		read2(mealId);

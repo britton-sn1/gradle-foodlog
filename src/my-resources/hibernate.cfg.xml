@@ -15,13 +15,6 @@
 		<property name="hibernate.connection.url">
 			jdbc:mysql://localhost:3306/foodlog?characterEncoding=latin1
 		</property>
-		<property name="hibernate.connection.username">
-			root
-		</property>
-		<!--Swindon123!! -->
-		<property name="hibernate.connection.password">
-			Harlosh123
-		</property>
 		<property name="hbm2ddl.auto">
 			create
 		</property>

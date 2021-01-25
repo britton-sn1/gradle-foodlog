@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class FoodItemTest
 {
@@ -27,8 +26,7 @@ public class FoodItemTest
 	static private final String UNITS = "100g";
 	static private final boolean ERROR_IF_NOT_EXISTS = true;
 
-	@Autowired
-	private FoodItemSessionFactory foodItemSessionFactory;
+	private FoodItemSessionFactory foodItemSessionFactory = new FoodItemSessionFactory();
 	
 	@BeforeEach
 	public void setUp() throws Exception
@@ -50,6 +48,7 @@ public class FoodItemTest
 	@Test
 	public void test()
 	{
+		
 		create();
 		read();
 		update();
