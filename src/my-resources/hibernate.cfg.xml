@@ -10,8 +10,6 @@
 		<property name="hibernate.connection.driver_class">
 			com.mysql.jdbc.Driver
 		</property>
-
-		<!-- Assume students is the database name -->
 		<property name="hibernate.connection.url">
 			jdbc:mysql://localhost:3306/foodlog?characterEncoding=latin1
 		</property>

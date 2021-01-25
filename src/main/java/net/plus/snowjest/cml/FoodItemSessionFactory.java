@@ -29,29 +29,18 @@ public class FoodItemSessionFactory {
 				
 				Configuration configuration = new Configuration();
 				StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-				Properties configProps = configuration.getProperties();
-				configProps.put("hibernate.dialect",
-						"org.hibernate.dialect.MySQLDialect");
-				configProps.put("hibernate.connection.driver_class",
-						"com.mysql.jdbc.Driver");
-				configProps.put("hibernate.connection.url",
-						"jdbc:mysql://localhost:3306/foodlog?characterEncoding=latin1");
+				configuration.configure();
 				
+				Properties configProps = configuration.getProperties();
 				configProps.put("hibernate.connection.username", System.getenv("hibernate_connection_username"));
-				configProps.put("hbm2ddl.auto", "create");
 				configProps.put("hibernate.connection.password",System.getenv("hibernate_connection_password"));
 
 				builder.applySettings(configuration.getProperties());
 				ServiceRegistry serviceRegistry = builder.build();
-				sessionFactory = configuration.configure()
-						.addPackage("net.plus.snowjest.cml.model")
+				sessionFactory = configuration.addPackage("net.plus.snowjest.cml.model")
 						.addAnnotatedClass(FoodItem.class)
 						.buildSessionFactory(serviceRegistry);
 
-				// factory = new AnnotationConfiguration().configure()
-				// .addPackage("net.plus.snowjest.cml.model"). // add package if
-				// // used.
-				// addAnnotatedClass(FoodItem.class).buildSessionFactory();
 			}
 			catch (Throwable ex) {
 				System.err.println("Failed to create sessionFactory object." + ex);
