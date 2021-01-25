@@ -13,8 +13,5 @@
 		<property name="hibernate.connection.url">
 			jdbc:mysql://localhost:3306/foodlog?characterEncoding=latin1
 		</property>
-		<property name="hbm2ddl.auto">
-			create
-		</property>
 	</session-factory>
 </hibernate-configuration>

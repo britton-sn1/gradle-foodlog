@@ -1,43 +1,31 @@
 package net.plus.snowjest.cml.model;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Meal")
+@Table(name = "meal")
 public class Meal {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-
-	@OneToMany(mappedBy = "name")
-	private List<FoodItem> foodItens = new ArrayList<>();
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
+	private Long mealId;
 
 	private Date mealDateTime;
 
-	public List<FoodItem> getFoodItens() {
-		return foodItens;
+	public Long getMealId() {
+		return mealId;
 	}
 
-	public void setFoodItens(List<FoodItem> foodItens) {
-		this.foodItens = foodItens;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setMealId(Long mealId) {
+		this.mealId = mealId;
 	}
 
 	public Date getMealDateTime() {
@@ -47,5 +35,4 @@ public class Meal {
 	public void setMealDateTime(Date mealDateTime) {
 		this.mealDateTime = mealDateTime;
 	}
-
 }
