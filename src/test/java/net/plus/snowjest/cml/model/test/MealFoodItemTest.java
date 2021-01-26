@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import net.plus.snowjest.cml.FoodItemSessionFactory;
+import net.plus.snowjest.cml.model.FoodItem;
+import net.plus.snowjest.cml.model.Meal;
+import net.plus.snowjest.cml.model.MealFoodItem;
 
 public class MealFoodItemTest {
 
@@ -24,6 +27,23 @@ public class MealFoodItemTest {
 
 	@Test
 	public void test() {
+		FoodItem foodItem = new FoodItem();
+		foodItem.setName("Moss");
+		Meal meal = new Meal();
+		MealFoodItem mealFoodItem = new MealFoodItem();
+		mealFoodItem.setMeal(meal);
+		mealFoodItem.setFoodItem(foodItem);
+		session.beginTransaction();
+		session.save(meal);
+		session.save(foodItem);
+		try {
+			session.save(mealFoodItem);
+
+			session.getTransaction().commit();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

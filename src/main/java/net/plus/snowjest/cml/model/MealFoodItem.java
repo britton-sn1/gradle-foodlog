@@ -21,7 +21,7 @@ public class MealFoodItem {
 	private FoodItem foodItem;
 
 	@OneToOne
-	@JoinColumn(name = "mealId")
+	@JoinColumn(name = "meal")
 	private Meal meal;
 
 	public int getId() {

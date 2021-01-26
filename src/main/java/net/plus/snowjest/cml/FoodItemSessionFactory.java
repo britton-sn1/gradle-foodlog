@@ -12,6 +12,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import net.plus.snowjest.cml.model.FoodItem;
 import net.plus.snowjest.cml.model.Meal;
+import net.plus.snowjest.cml.model.MealFoodItem;
 
 @ApplicationScoped
 public class FoodItemSessionFactory {
@@ -44,7 +45,7 @@ public class FoodItemSessionFactory {
 						.addPackage("net.plus.snowjest.cml.model")
 						.addAnnotatedClass(FoodItem.class)
 						.addAnnotatedClass(Meal.class)
-						// .addAnnotatedClass(MealFoodItem.class)
+						.addAnnotatedClass(MealFoodItem.class)
 						.buildSessionFactory(serviceRegistry);
 
 			}
