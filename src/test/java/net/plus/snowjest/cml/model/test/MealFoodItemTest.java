@@ -27,23 +27,20 @@ public class MealFoodItemTest {
 
 	@Test
 	public void test() {
-		FoodItem foodItem = new FoodItem();
-		foodItem.setName("Moss");
+		session.beginTransaction();
+		FoodItem foodItem = session.find(FoodItem.class, "Moss");
+		if (foodItem == null) {
+			foodItem = new FoodItem();
+			foodItem.setName("Moss");
+			session.save(foodItem);
+		}
 		Meal meal = new Meal();
 		MealFoodItem mealFoodItem = new MealFoodItem();
 		mealFoodItem.setMeal(meal);
 		mealFoodItem.setFoodItem(foodItem);
-		session.beginTransaction();
 		session.save(meal);
-		session.save(foodItem);
-		try {
-			session.save(mealFoodItem);
-
-			session.getTransaction().commit();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		session.save(mealFoodItem);
+		session.getTransaction().commit();
 	}
 
 }
