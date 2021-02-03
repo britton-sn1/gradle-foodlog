@@ -1,35 +1,42 @@
 package net.plus.snowjest.cml.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 @Entity
-@Table(name = "meal_fooditem")
-public class MealFoodItem {
+public class MealFoodItem implements Serializable {
+
+	private static final long serialVersionUID = 1242093640119835543L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
+	private Long id;
 
-	@OneToOne
-	@JoinColumn(name = "foodItem")
+	@ManyToOne
 	private FoodItem foodItem;
+	private Double quantity;
 
-	@OneToOne
-	@JoinColumn(name = "meal")
-	private Meal meal;
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Double getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Double quantity) {
+		this.quantity = quantity;
 	}
 
 	public FoodItem getFoodItem() {
@@ -40,11 +47,4 @@ public class MealFoodItem {
 		this.foodItem = foodItem;
 	}
 
-	public Meal getMeal() {
-		return meal;
-	}
-
-	public void setMeal(Meal meal) {
-		this.meal = meal;
-	}
 }

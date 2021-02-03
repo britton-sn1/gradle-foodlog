@@ -1,8 +1,4 @@
-CREATE TABLE `hibernate_sequence` (
-  `next_val` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
+CREATE DATABASE `foodlog` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 CREATE TABLE `fooditem` (
   `name` varchar(255) NOT NULL,
   `carbs` double NOT NULL,
@@ -16,18 +12,25 @@ CREATE TABLE `fooditem` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `hibernate_sequence` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `meal` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `mealDateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `meal_mealfooditem` (
+  `meal_id` bigint(20) NOT NULL,
+  `mealfooditem_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`meal_id`,`mealfooditem_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `meal_fooditem` (
-   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-   `fooditem` varchar(255) NOT NULL,
-   `meal` bigint(20),
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+CREATE TABLE `mealfooditem` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `quantity` double DEFAULT NULL,
+  `fooditem_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

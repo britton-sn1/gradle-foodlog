@@ -43,9 +43,9 @@ public class FoodItemSessionFactory {
 				ServiceRegistry serviceRegistry = builder.build();
 				sessionFactory = configuration
 						.addPackage("net.plus.snowjest.cml.model")
-						.addAnnotatedClass(FoodItem.class)
 						.addAnnotatedClass(Meal.class)
 						.addAnnotatedClass(MealFoodItem.class)
+						.addAnnotatedClass(FoodItem.class)
 						.buildSessionFactory(serviceRegistry);
 
 			}

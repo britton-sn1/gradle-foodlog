@@ -9,21 +9,22 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import net.plus.snowjest.cml.FoodItemSessionFactory;
-import net.plus.snowjest.cml.model.Meal;
+import net.plus.snowjest.cml.model.MealFoodItem;
 
 @ApplicationScoped
-@Path("meal")
-public class MealResource {
+@Path("mealfooditem")
+public class MealFoodItemResource {
 
 	@Inject
 	private FoodItemSessionFactory foodItemSessionFactory;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Meal getMeal(@QueryParam("id") long mealId) {
+	public MealFoodItem getMealFoodItem(@QueryParam("id") long id) {
 
-		Meal meal = foodItemSessionFactory.getSession().get(Meal.class, mealId);
-		return meal;
+		MealFoodItem mealFoodItem = foodItemSessionFactory.getSession()
+				.get(MealFoodItem.class, id);
+		return mealFoodItem;
 	}
 
 }
