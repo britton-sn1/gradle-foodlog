@@ -46,7 +46,11 @@ public class Meal implements Serializable {
 		this.mealDateTime = mealDateTime;
 	}
 
-	public Set<MealFoodItem> getMealFoodItems() {
+	public Set<MealFoodItem> getMealFoodItem() {
 		return mealFoodItem;
+	}
+
+	public void setMealFoodItem(Set<MealFoodItem> mealFoodItem) {
+		this.mealFoodItem = mealFoodItem;
 	}
 }
