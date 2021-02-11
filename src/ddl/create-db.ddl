@@ -9,8 +9,10 @@ CREATE TABLE `fooditem` (
   `sodium` double NOT NULL,
   `sugars` double NOT NULL,
   `units` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1007 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
@@ -31,6 +33,7 @@ CREATE TABLE `meal_mealfooditem` (
 CREATE TABLE `mealfooditem` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `quantity` double DEFAULT NULL,
-  `fooditem_name` varchar(50) DEFAULT NULL,
+  `fooditem_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
