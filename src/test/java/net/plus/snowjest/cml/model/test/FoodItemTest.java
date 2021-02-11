@@ -3,6 +3,15 @@ package net.plus.snowjest.cml.model.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.io.Serializable;
+
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +39,29 @@ public class FoodItemTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		session = foodItemSessionFactory.getSession();
-		delete(ERROR_IF_NOT_EXISTS);
-		FoodItem foodItem = session.get(FoodItem.class, FOOD_ITEM_NAME);
+		delete(ERROR_IF_NOT_EXISTS, FOOD_ITEM_NAME);
+		FoodItem foodItem = getFoodItem(FOOD_ITEM_NAME);
 		assertNull(foodItem, "Food item not null");
 
+	}
+
+	private FoodItem getFoodItem(String foodItemName) {
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<FoodItem> criteriaQuery = criteriaBuilder
+				.createQuery(FoodItem.class);
+		Root<FoodItem> from = criteriaQuery.from(FoodItem.class);
+		Predicate condition = criteriaBuilder.equal(from.get("name"),
+				foodItemName);
+		criteriaQuery.where(condition);
+		Query query = session.createQuery(criteriaQuery);
+		FoodItem foodItem = null;
+		try {
+			foodItem = (FoodItem) query.getSingleResult();
+		}
+		catch (NoResultException nre) {
+			nre.getMessage();
+		}
+		return foodItem;
 	}
 
 	@AfterEach
@@ -44,15 +72,15 @@ public class FoodItemTest {
 	@Test
 	public void test() {
 
-		create();
-		read();
-		update();
-		read2();
-		delete(!ERROR_IF_NOT_EXISTS);
-		read3();
+		long id = ((Long) create()).longValue();
+		read(id);
+		update(id);
+		read2(id);
+		delete(!ERROR_IF_NOT_EXISTS, FOOD_ITEM_NAME);
+		read3(id);
 	}
 
-	private void create() {
+	private Serializable create() {
 		session.beginTransaction();
 		FoodItem foodItem = new FoodItem(FOOD_ITEM_NAME);
 		foodItem.setCarbs(CARBS);
@@ -63,17 +91,14 @@ public class FoodItemTest {
 		foodItem.setSugars(SUGARS);
 		foodItem.setFibre(FIBRE);
 		foodItem.setUnits(UNITS);
-		session.persist(foodItem);
-		try {
-			session.getTransaction().commit();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		Serializable id = session.save(foodItem);
+		session.getTransaction().commit();
+
+		return id;
 	}
 
-	private void read() {
-		FoodItem foodItem = session.get(FoodItem.class, FOOD_ITEM_NAME);
+	private void read(long id) {
+		FoodItem foodItem = session.get(FoodItem.class, id);
 		assertEquals(CARBS, foodItem.getCarbs(), "Inccorect carbs value");
 		assertEquals(FATS, foodItem.getFats(), "Inccorect fats value");
 		assertEquals(PROTEIN, foodItem.getProtein(), "Inccorect protein value");
@@ -85,15 +110,15 @@ public class FoodItemTest {
 		assertEquals(UNITS, foodItem.getUnits(), "Inccorect units value");
 	}
 
-	private void update() {
+	private void update(long id) {
 		session.beginTransaction();
-		FoodItem foodItem = session.get(FoodItem.class, FOOD_ITEM_NAME);
+		FoodItem foodItem = session.get(FoodItem.class, id);
 		foodItem.setProtein(PROTEIN * 2);
 		session.getTransaction().commit();
 	}
 
-	private void read2() {
-		FoodItem foodItem = session.get(FoodItem.class, FOOD_ITEM_NAME);
+	private void read2(long id) {
+		FoodItem foodItem = session.get(FoodItem.class, id);
 
 		assertEquals(CARBS, foodItem.getCarbs(), "Inccorect carbs value");
 		assertEquals(FATS, foodItem.getFats(), "Inccorect fats value");
@@ -108,8 +133,8 @@ public class FoodItemTest {
 
 	}
 
-	private void delete(boolean ignoreIfNull) {
-		FoodItem foodItem = session.get(FoodItem.class, FOOD_ITEM_NAME);
+	private void delete(boolean ignoreIfNull, String foodItemName) {
+		FoodItem foodItem = getFoodItem(foodItemName);
 		if (ignoreIfNull && foodItem == null) {
 			return;
 		}
@@ -120,8 +145,8 @@ public class FoodItemTest {
 
 	}
 
-	private void read3() {
-		FoodItem foodItem = session.get(FoodItem.class, FOOD_ITEM_NAME);
+	private void read3(long id) {
+		FoodItem foodItem = session.get(FoodItem.class, id);
 		assertNull(foodItem, "Food item not null");
 	}
 
