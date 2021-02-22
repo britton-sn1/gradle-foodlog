@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.Serializable;
 
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -55,12 +54,7 @@ public class FoodItemTest {
 		criteriaQuery.where(condition);
 		Query query = session.createQuery(criteriaQuery);
 		FoodItem foodItem = null;
-		try {
-			foodItem = (FoodItem) query.getSingleResult();
-		}
-		catch (NoResultException nre) {
-			nre.getMessage();
-		}
+		foodItem = (FoodItem) query.getSingleResult();
 		return foodItem;
 	}
 

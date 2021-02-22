@@ -111,4 +111,16 @@ public class FoodItem {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	public void update(FoodItem fi) {
+		this.carbs = fi.carbs;
+		this.fats = fi.fats;
+		this.fibre = fi.fibre;
+		this.name = fi.name;
+		this.protein = fi.protein;
+		this.saturates = fi.saturates;
+		this.sodium = fi.sodium;
+		this.sugars = fi.sugars;
+		this.units = fi.units;
+	}
 }

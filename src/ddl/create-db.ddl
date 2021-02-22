@@ -12,7 +12,7 @@ CREATE TABLE `fooditem` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1007 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1009 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
@@ -29,6 +29,7 @@ CREATE TABLE `meal_mealfooditem` (
   `mealfooditem_id` bigint(20) NOT NULL,
   PRIMARY KEY (`meal_id`,`mealfooditem_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE `mealfooditem` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
