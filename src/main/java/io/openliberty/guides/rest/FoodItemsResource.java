@@ -5,12 +5,14 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -29,13 +31,28 @@ public class FoodItemsResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<FoodItem> getFoodItems() {
+	public List<FoodItem> getFoodItems(
+			@DefaultValue("0") @QueryParam("startPage") int startPage,
+			@DefaultValue("30") @QueryParam("pageSize") int pageSize) {
 
 		List<FoodItem> foodItems = foodItemSessionFactory.getSession()
 				.createQuery("SELECT a FROM FoodItem a", FoodItem.class)
 				.getResultList();
 
-		return foodItems;
+		return foodItems.subList(startPage * pageSize,
+				Math.min(foodItems.size(), (startPage + 1) * pageSize));
+	}
+
+	@GET
+	@Path("count")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int getFoodItemsCount() {
+
+		List<FoodItem> foodItems = foodItemSessionFactory.getSession()
+				.createQuery("SELECT a FROM FoodItem a", FoodItem.class)
+				.getResultList();
+
+		return foodItems.size();
 	}
 
 	@GET
