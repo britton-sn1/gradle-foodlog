@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -33,26 +34,35 @@ public class FoodItemsResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<FoodItem> getFoodItems(
 			@DefaultValue("0") @QueryParam("startPage") int startPage,
-			@DefaultValue("30") @QueryParam("pageSize") int pageSize) {
+			@DefaultValue("30") @QueryParam("pageSize") int pageSize,
+			@DefaultValue("") @QueryParam("filter") String filter) {
 
-		List<FoodItem> foodItems = foodItemSessionFactory.getSession()
-				.createQuery("SELECT a FROM FoodItem a", FoodItem.class)
-				.getResultList();
-
+		List<FoodItem> foodItems = getFoodItems(filter);
 		return foodItems.subList(startPage * pageSize,
 				Math.min(foodItems.size(), (startPage + 1) * pageSize));
+	}
+
+	private List<FoodItem> getFoodItems(String filter) {
+
+		String queryString = "SELECT a FROM FoodItem a";
+		if (filter.trim().length() > 0) {
+			queryString = queryString + " where lower(a.name) like :filter";
+		}
+		Query query = foodItemSessionFactory.getSession().createQuery(queryString,
+				FoodItem.class);
+		if (filter.trim().length() > 0) {
+			query.setParameter("filter", "%" + filter.toLowerCase() + "%");
+		}
+		return query.getResultList();
 	}
 
 	@GET
 	@Path("count")
 	@Produces(MediaType.APPLICATION_JSON)
-	public int getFoodItemsCount() {
+	public int getFoodItemsCount(
+			@DefaultValue("") @QueryParam("filter") String filter) {
 
-		List<FoodItem> foodItems = foodItemSessionFactory.getSession()
-				.createQuery("SELECT a FROM FoodItem a", FoodItem.class)
-				.getResultList();
-
-		return foodItems.size();
+		return getFoodItems(filter).size();
 	}
 
 	@GET
