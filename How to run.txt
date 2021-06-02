@@ -1,0 +1,8 @@
+1. cd /cygdrive/f/apps/guide-rest-intro/start
+2. mvn libery:run (or libery:stop if already running)
+3. cd  /cygdrive/f/apps/Apache24/bin
+4. ./httpd.exe
+5. cd  /cygdrive/f/apps/angular/meal-logger-2/meallogger-gui-angular
+6. ng serve
+7. http://localhost.
+8. Angular app debugged using Chrome, files updated in visiual studio. Java app edited in eclipse
